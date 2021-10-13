@@ -7,6 +7,10 @@ public class BusinessLogic {
 		this.database = database;
 	}
 	
+	public BusinessLogic() {
+		
+	}
+	
 	public Database getDatabase() {
 		return database;
 	}
@@ -14,4 +18,9 @@ public class BusinessLogic {
 	public void doBusinessLogic() {
 		// leave it empty
 	}
+
+	public void setDatabase(Database database) {
+		this.database = database;
+	}
+
 }
