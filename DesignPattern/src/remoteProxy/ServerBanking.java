@@ -1,4 +1,7 @@
-package com.example.demo;
+package remoteProxy;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 public class ServerBanking implements IBanking {
 
@@ -11,7 +14,7 @@ public class ServerBanking implements IBanking {
 	}
 
 	@Override
-	public Integer withdraw(Integer money) {
+	public Integer withdraw(Integer money) throws UnknownHostException, IOException {
 		balance -= money;
 		return balance;
 	}
