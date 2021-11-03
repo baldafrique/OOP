@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @SpringBootApplication
 @RestController("pets")
 @EnableAspectJAutoProxy
@@ -52,7 +53,7 @@ public class DemoApplication {
 		result.append("<p>Energy : " + thePet.getEnergy() + "</p>");
 		result.append("<li><a href='" + petId + "/feed'>Feed</a>");
 		result.append("<li><a href='" + petId + "/sleep'>Sleep</a>");
-		result.append("<li><a href='" + petId + "/adopt'>Adopt</a>");
+		result.append("<li><a href='" + petId + "/cart'>Cart</a>");
 		
 		if (thePet instanceof Groomable) {
 			result.append("<li><a href='" + petId + "/groom'>Groom</a>");
@@ -61,15 +62,15 @@ public class DemoApplication {
 		return result.toString();
 	}
 	
-//	@Autowired
-//	Cart cart;
-//	
-//	@RequestMapping(method = RequestMethod.GET, path="{petId}/cart")
-//	public String addToCart(@PathVariable(value = "petId") String petId) {
-//		Pet thePet = pets.get(petId);
-//		cart.add(thePet);
-//		return "Adopt success<br>." + cart; 
-//	}
+	@Autowired
+	Cart cart;
+	
+	@RequestMapping(method = RequestMethod.GET, path="{petId}/cart")
+	public String addToCart(@PathVariable(value = "petId") String petId) {
+		Pet thePet = pets.get(petId);
+		cart.add(thePet);
+		return "Adopt success.<br>" + cart;
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, path="{petId}/feed")
 	public String feed(@PathVariable(value = "petId") String petId) {
