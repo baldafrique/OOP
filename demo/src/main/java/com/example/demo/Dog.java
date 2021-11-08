@@ -1,5 +1,10 @@
 package com.example.demo;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("dog")
 public class Dog extends Pet implements Runnable {
 
 	@Override

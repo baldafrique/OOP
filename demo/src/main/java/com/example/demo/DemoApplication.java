@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoApplication {
 
 	static HashMap<String, Pet> pets = new HashMap<>();
+	static String[] names = {"젤리", "대박이", "감자", "사랑", "자몽이", "꼬맹이", "몽이", "모리"};
 	
 	public static void main(String[] args) {
 		pets.put(Dog.class.getSimpleName().toLowerCase(), new Dog());
@@ -66,9 +67,11 @@ public class DemoApplication {
 	Cart cart;
 	
 	@RequestMapping(method = RequestMethod.GET, path="{petId}/cart")
-	public String addToCart(@PathVariable(value = "petId") String petId) {
+	public String addToCart(@PathVariable(value = "petId") String petId) throws InstantiationException, IllegalAccessException {
 		Pet thePet = pets.get(petId);
-		cart.add(thePet);
+		thePet = thePet.getClass().newInstance();
+		thePet.setName(names[(int) Math.round(Math.random() * names.length - 1)]);
+		
 		return "Adopt success.<br>" + cart;
 	}
 	
