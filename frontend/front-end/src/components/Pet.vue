@@ -3,10 +3,13 @@
     <v-list-item three-line>
       <v-list-item-content>
         <div class="text-overline mb-4">{{ value.type }}</div>
-        <v-list-item-title class="text-h5 mb-1">
+        <v-list-item-title class="text-h5 mb-1" v-if="editMode">
+          <v-text-field v-model="value.name"></v-text-field>
+        </v-list-item-title>
+        <v-list-item-title class="text-h5 mb-1" @click="toggleEditMode" v-else>
           {{ value.name }}
         </v-list-item-title>
-        <v-list-item-subtitle
+        <v-list-item-subtitle @click="toggleEditMode"
           >에너지는 {{ value.energy }}이고 외모지수는
           {{ value.appearance }}입니다.</v-list-item-subtitle
         >
@@ -24,11 +27,14 @@
 </template>
 
 <script>
+// const axios = require("axios").default;
+
 export default {
   name: "Pet",
 
   props: {
     value: Object,
+    editMode: Boolean,
   },
 
   methods: {
@@ -36,15 +42,30 @@ export default {
       if (this.$parent.eat) {
         this.$parent.eat();
       } else {
-        this.value.energy += 3;
+        this.value.energy += 2;
       }
+
+      // axios.request({
+      //   method: "PATCH",
+      //   url: new URL(this.value._links.self.href).pathname,
+      //   headers: { "Content-Type": "application/json" },
+      //   data: this.value,
+      // });
+
+      this.$emit("change", this.value);
     },
     sleep() {
       if (this.$parent.sleep) {
         this.$parent.sleep();
       } else {
-        this.value.appearance += 3;
+        this.value.energy += 2;
       }
+
+      this.$emit("change", this.value);
+    },
+    toggleEditMode() {
+      this.editMode = !this.editMode;
+      this.$emit("change", this.value);
     },
   },
 };

@@ -6,7 +6,11 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("dog")
 public class Dog extends Pet implements Runnable {
-
+	
+	public Dog() {
+		setType("Dog");
+	}
+	
     @Override
     public void speak() {
         System.out.println("멍멍");

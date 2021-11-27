@@ -1,8 +1,5 @@
 package com.example.petstore;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -21,6 +18,7 @@ public abstract class Pet {     // Entity. Domain
 	 @Id @GeneratedValue
 	 Long id;
 	 String name;
+	 String type;
 	 
 	 public Long getId() {
 		return this.id;
@@ -34,6 +32,14 @@ public abstract class Pet {     // Entity. Domain
 		 return this.name;
 	 }
 	 
+	 public void setType(String type) {
+		 this.type = type;
+	 }
+	 
+	 public String getType() {
+		 return type;
+	 }
+	 
     abstract public void speak();
 
 
@@ -43,15 +49,26 @@ public abstract class Pet {     // Entity. Domain
 //    }
 
     private int energy = 0;
-        public int getEnergy() {
-            return energy;
-        }
-        protected void setEnergy(int energy) {
-            if(Math.abs(this.energy - energy) < 3 )
-                this.energy = energy;
-            else    
-                throw new IllegalArgumentException("Energy change is too big");
-        }
+    private int appearance = 0;
+    
+    public int getEnergy() {
+        return energy;
+    }
+    protected void setEnergy(int energy) {
+        if(Math.abs(this.energy - energy) < 3 )
+            this.energy = energy;
+        else    
+            throw new IllegalArgumentException("Energy change is too big");
+    }
+    
+    public int getAppearance() {
+    	return appearance;
+    }
+    
+    protected void setAppearance(int appearance) {
+    	this.appearance = appearance;
+    }
+        
 
     public void eat(){
         energy++;

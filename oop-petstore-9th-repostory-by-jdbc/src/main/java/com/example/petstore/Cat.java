@@ -10,6 +10,10 @@ import javax.persistence.Entity;
 @DiscriminatorValue("cat")
 public class Cat extends Pet implements Groomable, Serializable, Runnable{
 
+	public Cat() {
+		setType("Cat");
+	}
+	
     @Override
     public void speak() {
 

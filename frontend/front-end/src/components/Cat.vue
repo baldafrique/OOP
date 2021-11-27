@@ -21,6 +21,7 @@ export default {
   methods: {
     groom() {
       this.value.appearance++;
+      this.$emit("change", this.value);
     },
   },
 };
