@@ -27,7 +27,7 @@
 </template>
 
 <script>
-// const axios = require("axios").default;
+const axios = require("axios").default;
 
 export default {
   name: "Pet",
@@ -38,31 +38,56 @@ export default {
   },
 
   methods: {
-    eat() {
-      if (this.$parent.eat) {
-        this.$parent.eat();
-      } else {
-        this.value.energy += 2;
-      }
+    async eat() {
+      await axios.request({
+        method: "PUT",
+        url: new URL(this.value._links.feed.href).pathname,
+        headers: { "Content-Type": "application/json" },
+      });
 
+      this.refresh();
+
+      // if (this.$parent.eat) {
+      //   this.$parent.eat();
+      // } else {
+      //   this.value.energy += 2;
+      // }
       // axios.request({
       //   method: "PATCH",
       //   url: new URL(this.value._links.self.href).pathname,
       //   headers: { "Content-Type": "application/json" },
       //   data: this.value,
       // });
-
-      this.$emit("change", this.value);
+      // this.$emit("change", this.value);
     },
-    sleep() {
-      if (this.$parent.sleep) {
-        this.$parent.sleep();
-      } else {
-        this.value.energy += 2;
+    async sleep() {
+      await axios.request({
+        method: "PUT",
+        url: new URL(this.value._links.sleep.href).pathname,
+        headers: { "Content-Type": "application/json" },
+      });
+
+      this.refresh();
+
+      // if (this.$parent.sleep) {
+      //   this.$parent.sleep();
+      // } else {
+      //   this.value.energy += 2;
+      // }
+      // this.$emit("change", this.value);
+    },
+
+    async refresh() {
+      var response = await axios.get(
+        new URL(this.value._links.self.href).pathname
+      );
+
+      if (response) {
+        this.value = response.data;
+        this.$emit("input", this.value);
       }
-
-      this.$emit("change", this.value);
     },
+
     toggleEditMode() {
       this.editMode = !this.editMode;
       this.$emit("change", this.value);

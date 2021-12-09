@@ -15,13 +15,13 @@ export default {
   mixins: [Pet],
 
   methods: {
-    eat() {
-      this.value.energy += 2;
-    },
-    sleep() {
-      this.$super(Pet).sleep();
-      this.value.appearance++;
-    },
+    // eat() {
+    //   this.value.energy += 2;
+    // },
+    // sleep() {
+    //   this.$super(Pet).sleep();
+    //   this.value.appearance++;
+    // },
   },
 };
 </script>

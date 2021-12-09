@@ -7,6 +7,7 @@
 </template>
 
 <script>
+const axios = require("axios").default;
 import Pet from "./Pet";
 
 export default {
@@ -19,9 +20,14 @@ export default {
   mixins: [Pet],
 
   methods: {
-    groom() {
-      this.value.appearance++;
-      this.$emit("change", this.value);
+    async groom() {
+      await axios.request({
+        method: "PUT",
+        url: new URL(this.value._links.groom.href).pathname,
+        headers: { "Content-Type": "application/json" },
+      });
+
+      this.refresh();
     },
   },
 };
