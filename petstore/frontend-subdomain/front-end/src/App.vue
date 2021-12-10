@@ -4,8 +4,8 @@
       <v-container class="py-0 fill-height">
         <v-avatar class="mr-10" color="grey darken-1" size="32"></v-avatar>
 
-        <v-btn v-for="link in links" :key="link" text>
-          {{ link }}
+        <v-btn v-for="link in links" :key="link.href" :href="link.href" text>
+          {{ link.title }}
         </v-btn>
 
         <v-spacer></v-spacer>
@@ -28,16 +28,9 @@
           <v-col cols="2">
             <v-sheet rounded="lg">
               <v-list color="transparent">
-                <v-list-item
-                  v-for="item in items"
-                  :key="item"
-                  link
-                  @click="addPet(item)"
-                >
+                <v-list-item @click="showCart = true">
                   <v-list-item-content>
-                    <v-list-item-title>
-                      {{ item }}
-                    </v-list-item-title>
+                    <v-list-item-title> Cart </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
@@ -54,9 +47,9 @@
 
           <v-col>
             <v-sheet min-height="70vh" rounded="lg">
+              <Cart v-if="showCart"></Cart>
               <Pet
-                @change="updatePet(pet)"
-                :is="pets[index].type"
+                v-else
                 v-model="pets[index]"
                 v-for="(pet, index) in pets"
                 :key="index"
@@ -70,66 +63,39 @@
 </template>
 
 <script>
-import Cat from "./components/Cat";
-import Dog from "./components/Dog";
-import Pet from "./components/Pet";
-const axios = require("axios").default;
+import Pet from "./components/Pet"; // import object Pet
+import Cart from "./components/Cart"; // import object Cart
+const axios = require("axios").default; // HTTP 비동기 통신 라이브러리
 
 export default {
-  name: "App",
+  name: "App", // 해당 변수에 담겨있는 데이터를 객체 형식으로 전달
   components: {
-    Cat,
-    Dog,
     Pet,
+    Cart,
   },
   data: () => ({
-    links: ["Register Pet", "Shopping Mall"],
-    items: ["Dog", "Cat"],
+    // <template> 영역에서 펫 등록하기 라는 문자열을 출력하기 위한 title
+    links: [{ title: "Register Pet", href: "/" }],
+    items: ["Dog", "Cat"], // Dog와 Cat 중 해당되는 객체가 pets에 담김
     pets: [],
+    showCart: false,
   }),
 
   created() {
+    // new Vue()를 통해 event와 life cycle이 초기화 된 후
+    // 화면에 반응성을 주입 하고 init() 메서드 실행
     this.init();
   },
 
   methods: {
+    showCart() {
+      // 카트 보기 버튼이 눌린경우 실행
+      this.showCart = true;
+    },
+
     async init() {
       const response = await axios.get("/cats");
       this.pets = response.data._embedded.cats;
-    },
-
-    addPet(item) {
-      if (item == "Dog") {
-        this.pets.push({
-          type: "Dog",
-          name: "멍멍이",
-          energy: 1,
-          appearance: 5,
-        });
-      } else if (item == "Cat") {
-        this.pets.push({
-          type: "Cat",
-          name: "야옹이",
-          energy: 2,
-          appearance: 10,
-        });
-      }
-
-      axios.request({
-        method: "POST",
-        url: `/cats`,
-        headers: { "Content-Type": "application/json" },
-        data: this.pets[this.pets.length - 1],
-      });
-    },
-
-    updatePet(pet) {
-      axios.request({
-        method: "PATCH",
-        url: new URL(pet._links.self.href).pathname,
-        headers: { "Content-Type": "application/json" },
-        data: pet,
-      });
     },
   },
 };

@@ -7,9 +7,9 @@ import javax.persistence.Id;
 @Entity
 public class Customer {
 	@Id
-	String id;
+	String id; // id를 entity인 customer의 primary key로 설정
 	
-	@Embedded
+	@Embedded // address 필드를 customer entity에 묶음
 	Address address;
 	
 	public String getId() {

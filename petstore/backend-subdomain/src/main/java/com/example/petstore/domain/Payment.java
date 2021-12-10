@@ -5,8 +5,8 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Payment {
 	
-	String method;
-	String status;
+	String method; // 결제 방식
+	String status; // 결제 상태
 	
 	public String getMethod() {
 		return method;

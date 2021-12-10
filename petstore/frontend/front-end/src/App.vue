@@ -4,9 +4,7 @@
       <v-container class="py-0 fill-height">
         <v-avatar class="mr-10" color="grey darken-1" size="32"></v-avatar>
 
-        <v-btn v-for="link in links" :key="link" text>
-          {{ link }}
-        </v-btn>
+        <v-btn href="/shop"> Shopping Mall </v-btn>
 
         <v-spacer></v-spacer>
 
@@ -70,25 +68,26 @@
 </template>
 
 <script>
-import Cat from "./components/Cat";
-import Dog from "./components/Dog";
-import Pet from "./components/Pet";
-const axios = require("axios").default;
+import Cat from "./components/Cat"; // import object Cat
+import Dog from "./components/Dog"; // import object Dog
+import Pet from "./components/Pet"; // import object Pet
+const axios = require("axios").default; // HTTP 비동기 통신 라이브러리
 
 export default {
-  name: "App",
+  name: "App", // 해당 변수에 담겨있는 데이터를 객체 형식으로 전달
   components: {
     Cat,
     Dog,
     Pet,
   },
   data: () => ({
-    links: ["Register Pet", "Shopping Mall"],
-    items: ["Dog", "Cat"],
+    items: ["Dog", "Cat"], // Dog와 Cat 중 해당되는 객체가 pets에 담김
     pets: [],
   }),
 
   created() {
+    // new Vue()를 통해 event와 life cycle이 초기화 된 후
+    // 화면에 반응성을 주입 하고 init() 메서드 실행
     this.init();
   },
 
@@ -98,6 +97,8 @@ export default {
       this.pets = response.data._embedded.cats;
     },
 
+    // 클릭된 버튼이 Dog인 경우 또는 Cat인 경우에 따라
+    // 해당하는 객체의 필드값을 채워넣고 pet array에 push
     addPet(item) {
       if (item == "Dog") {
         this.pets.push({
@@ -124,6 +125,7 @@ export default {
     },
 
     updatePet(pet) {
+      // pet array의 값이 수정될 때 마다 update
       axios.request({
         method: "PATCH",
         url: new URL(pet._links.self.href).pathname,

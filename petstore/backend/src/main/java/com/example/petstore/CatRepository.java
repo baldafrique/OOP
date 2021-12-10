@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.example.petstore.domain.Cat;
 
-public interface CatRepository extends CrudRepository<Cat, Long>{    // Repository Pattern Interface
+public interface CatRepository extends CrudRepository<Cat, Long>{
 	
 }

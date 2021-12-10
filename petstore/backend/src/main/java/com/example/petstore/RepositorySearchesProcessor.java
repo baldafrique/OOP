@@ -13,9 +13,11 @@ public class RepositorySearchesProcessor implements RepresentationModelProcessor
 
 	@Override
 	public EntityModel<Pet> process(EntityModel<Pet> model) {
+		// .../cats/feed 또는 .../dogs/feed link 추가
 		model.add(Link.of(model.getRequiredLink("self").getHref() + "/feed").withRel("feed"));
 		
-		if (model.getContent() instanceof Cat) {
+		if (model.getContent() instanceof Cat) { // model.getContent()가 고양이 instance인 경우
+			// .../cats/groom link 추가
 			model.add(Link.of(model.getRequiredLink("self").getHref() + "/groom").withRel("groom"));	
 		}
 		

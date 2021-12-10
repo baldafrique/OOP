@@ -12,8 +12,8 @@ public class RepositorySearchesProcessor implements RepresentationModelProcessor
 
 	@Override
 	public EntityModel<CartItem> process(EntityModel<CartItem> model) {
+		// hateoas 구현을 위해 link 추가
 		model.add(Link.of(model.getContent().getPet()).withRel("pet"));
-		
 		return model;
 	}
 

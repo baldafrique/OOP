@@ -27,6 +27,7 @@
 </template>
 
 <script>
+// HTTP 비동기 통신 라이브러리
 const axios = require("axios").default;
 
 export default {
